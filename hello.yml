@@ -1,0 +1,8 @@
+name: Test Robot
+on: [push]
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print message
+        run: echo "Привет! Я робот, и я успешно работаю!"
