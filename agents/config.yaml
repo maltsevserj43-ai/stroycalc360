@@ -1,0 +1,36 @@
+models:
+  primary: groq/llama-3.3-70b-versatile
+  fallback: gemini/gemini-2.0-flash
+  local: ollama/qwen2.5-coder:7b
+
+agents:
+  A:
+    name: contracts
+    branch: feat/contracts
+    paths: [contracts, app/lib/domain/calculators]
+    red_path: false
+  B:
+    name: ui
+    branch: feat/ui
+    paths: [app/lib/ui, app/lib/app]
+    red_path: false
+  C:
+    name: backend
+    branch: feat/backend
+    paths: [backend, app/lib/data]
+    red_path: false
+  D:
+    name: calculators
+    branch: feat/calculators
+    paths: [app/lib/domain/calculators]
+    red_path: true
+  E:
+    name: estimates
+    branch: feat/estimates
+    paths: [app/lib/features/estimates]
+    red_path: false
+  F:
+    name: ai
+    branch: feat/ai
+    paths: [app/lib/ai]
+    red_path: true
