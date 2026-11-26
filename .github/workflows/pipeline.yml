@@ -1,0 +1,24 @@
+name: AI Pipeline
+on:
+  workflow_dispatch:
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+    steps:
+      - id: set
+        run: echo 'matrix=["A","B","C","D","E","F"]' >> "$GITHUB_OUTPUT"
+
+  agent:
+    needs: dispatch
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        id: ${{ fromJson(needs.dispatch.outputs.matrix) }}
+    uses: ./.github/workflows/agent-runner.yml
+    with:
+      agent_id: ${{ matrix.id }}
+    secrets: inherit
