@@ -1,26 +1,9 @@
 import 'package:flutter/material.dart';
+import 'rectangle_screen.dart';
+import 'circle_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _lengthController = TextEditingController();
-  final TextEditingController _widthController = TextEditingController();
-  String _result = '';
-
-  void _calculateArea() {
-    final length = double.tryParse(_lengthController.text) ?? 0;
-    final width = double.tryParse(_widthController.text) ?? 0;
-    final area = length * width;
-    
-    setState(() {
-      _result = 'Площадь: ${area.toStringAsFixed(2)} м²';
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,52 +13,41 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.calculate, size: 60, color: Colors.green),
-            const SizedBox(height: 20),
-            const Text(
-              'Площадь прямоугольника',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          const Text(
+            'Выберите калькулятор:',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.crop_square, color: Colors.green),
+              title: const Text('Площадь прямоугольника'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RectangleScreen()),
+                );
+              },
             ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _lengthController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Длина (м)',
-                border: OutlineInputBorder(),
-              ),
+          ),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.circle_outlined, color: Colors.green),
+              title: const Text('Площадь круга'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CircleScreen()),
+                );
+              },
             ),
-            const SizedBox(height: 15),
-            TextField(
-              controller: _widthController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Ширина (м)',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _calculateArea,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              child: const Text('Рассчитать', style: TextStyle(fontSize: 18)),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              _result,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.green),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
